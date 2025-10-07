@@ -122,11 +122,7 @@ class Package(models.Model):
         ('Shipment Processed', 'Shipment Processed'),
         ('In Transit', 'In Transit'),
         ('Hold', 'Hold'),
-        ('At Destination Facility', 'At Destination Facility'),
-        ('Out for Delivery', 'Out for Delivery'),
         ('Delivered', 'Delivered'),
-        ('Returned', 'Returned'),
-        ('Cancelled', 'Cancelled')
     ]
     package_status = models.CharField(max_length=32, choices=PACKAGE_STATUS_CHOICES)
     delivery_update = models.TextField(null=True, blank=True)
