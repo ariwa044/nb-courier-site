@@ -1,0 +1,11 @@
+django==4.2
+django-jazzmin
+psycopg2
+supabase
+httpx
+reportlab
+gunicorn
+whitenoise
+plotly
+requests
+python-dotenv

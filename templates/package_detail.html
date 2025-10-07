@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track your package {{ package.tracking_code }} with Chaselogix">
+    <title>Track Package - {{ package.tracking_code }} | Chaselogix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="{% static 'css/package_detail.css' %}" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" defer></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68e44a03a72e351952184011/1j6ts284v';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
+</head>
+<body>
+    <header class="site-header">
+        <nav class="container" aria-label="Main navigation">
+            <a href="/" class="logo" aria-label="Chaselogix Home">
+                <img src="{% static 'images/logo.jpg' %}" alt="" width="40" height="40">
+                <span class="logo-text">Chaselogix</span>
+            </a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <form action="{% url 'track:track_package' %}" method="POST" class="form-search d-flex align-items-stretch mb-3">
+            {% csrf_token %}
+            <input type="text" name="tracking_code" class="form-control" placeholder="Enter your tracking code" required>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>       
+        {% if error_message %}
+            <div class="alert alert-danger">{{ error_message }}</div>
+        {% endif %}
+
+        <div class="delivery-update" aria-live="polite">
+                <div class="update-icon" aria-hidden="true">
+                    <i class="fas fa-bell"></i>
+                </div><div class="update-content">
+                    <h3 class="update-title">Latest Update</h3>
+                    <p class="update-message">{{ package.delivery_update }}</p>
+                </div>
+        </div> <!-- Closing the delivery-update div -->
+
+        
+        <section class="tracking-summary">
+            <div class="tracking-header">
+                
+                <div class="header-content">
+                    <div class="tracking-title">
+                        <h2 class="section-title" id="package-heading">
+                            <i class="fas fa-box" aria-hidden="true"></i> Package Information
+                        </h2>
+                        <div class="status-badge {{ package.package_status|lower }}" aria-live="polite">
+                            <i class="fas fa-{% if package.package_status == 'Delivered' %}check-circle{% elif package.package_status == 'In Transit' %}shipping-fast{% else %}clock{% endif %}" aria-hidden="true"></i>
+                            {{ package.get_package_status_display }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tracking-details">
+                    <dl class="tracking-info">
+                        <dt class="info-label">Tracking Number</dt>
+                        <dd class="info-value-container">
+                            <span class="info-value" id="tracking-number">{{ package.tracking_code }}</span>
+                            <button class="btn-copy" aria-label="Copy tracking number" 
+                                    onclick="copyToClipboard('{{ package.tracking_code }}')">
+                                <i class="fas fa-copy" aria-hidden="true"></i>
+                            </button>
+                        </dd>
+                    </dl>
+                    <dl class="tracking-info">
+                        <dt class="info-label">Shipping Date</dt>
+                        <dd class="info-value">
+                            <time datetime="{{ package.shipping_date|date:'Y-m-d' }}">
+                                <i class="fas fa-calendar-alt"></i> {{ package.shipping_date|date:"M d, Y" }}
+                            </time>
+                        </dd>
+                    </dl>
+                    <dl class="tracking-info">
+                        <dt class="info-label">Shipping Method</dt>
+                        <dd class="info-value"> <i class="fa-solid fa-truck-fast"></i> {{ package.get_mode_of_transit_display }}</dd>
+                    </dl>
+                    
+                    
+                    <dl class="detail-content">
+                        <dt>Weight</dt>
+                        <dd>
+                        <i class="fas fa-weight-hanging" class="detail-icon"></i> {{ package.package_weight }} kg</dd>
+                    </dl>
+                    <dl class="detail-content">
+                        <dt>Shipping Cost</dt>
+                        <dd><i class="fa-duotone fa-solid fa-money-bills"></i> ${{ package.shipping_cost|floatformat:2 }}</dd>
+                    </dl>
+                    <dl class="detail-content">
+                        <dt>Estimated Delivery Date</dt>
+                        <dd>
+                            <i class="fas fa-calendar-alt"></i> {{ package.delivery_date|date:"M d, Y" }}
+                        </dd>
+                    </dl>
+                    <dl class="detail-content">
+                        <dt>Package Quantity</dt>
+                        <dd>
+                            <i class="fas fa-box"></i> {{ package.package_quantity }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <div class="details-layout">
+            <section class="info-card shipping-info" aria-labelledby="shipping-heading">
+                <h2 class="section-title" id="shipping-heading">
+                    <i class="fas fa-exchange-alt" aria-hidden="true"></i> Shipping Details
+                </h2>
+                <div class="shipping-details">
+                    <div class="detail-row">
+                        <div class="detail-group from">
+                            <div class="location-icon origin" aria-hidden="true">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                            <div class="location-details">
+                                <h3 class="location-label">From</h3>
+                                <p class="location-name">{{ package.sender }}</p>
+                                <address class="location-address">{{ package.sending_location }}</address>
+                            </div>
+                        </div>
+                        <div class="shipping-arrow" aria-hidden="true">
+                            <div class="arrow-line"></div>
+                            <i class="fas fa-plane"></i>
+                            <div class="arrow-line"></div>
+                        </div>
+                        <div class="detail-group to">
+                            <div class="location-icon destination" aria-hidden="true">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="location-details">
+                                <h3 class="location-label">To</h3>
+                                <p class="location-name">{{ package.receiver }}</p>
+                                <address class="location-address">{{ package.receiving_location }}</address>
+                                <p class="tel">
+                                    <i class="fas fa-phone" aria-hidden="true"></i>
+                                    <a href="tel:{{ package.tel }}">{{ package.tel }}</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="tracker-layout">
+                
+                {% if map_html %}
+                <section class="map-card" aria-labelledby="map-heading">
+                    <h2 class="section-title" id="map-heading">
+                        <i class="fas fa-map-marked-alt" aria-hidden="true"></i> Shipment Route
+                    </h2>
+                    <div class="map-container" aria-label="Map showing shipment route">
+                        {{ map_html|safe }}
+                    </div>
+                    <div class="map-legend" aria-label="Map legend">
+                        <div class="legend-item">
+                            <span class="legend-color completed" aria-hidden="true"></span>
+                            <span>Completed Route</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color pending" aria-hidden="true"></span>
+                            <span>Pending Route</span>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+                <section class="status-timeline" aria-labelledby="timeline-heading">
+                    <h2 class="section-title" id="timeline-heading">
+                        <i class="fas fa-route" aria-hidden="true"></i> Shipment Progress
+                    </h2>
+                    <div class="timeline-wrapper">
+                        <div class="progress-container" aria-label="Shipment progress: {{ status_percentage }}% complete">
+                            <div class="progress-bar" style="--progress: {{ status_percentage }}%"></div>
+                            <ol class="timeline-steps">
+                                {% for status in status_list %}
+                                <li class="step {% if forloop.counter0 <= status_index %}active{% endif %}">
+                                    <div class="step-icon" aria-hidden="true">
+                                        {% if forloop.counter0 < status_index %}
+                                            <i class="fas fa-check"></i>
+                                        {% elif forloop.counter0 == status_index %}
+                                            <i class="fas fa-circle-dot pulse"></i>
+                                        {% else %}
+                                            <i class="far fa-circle"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="step-label">{{ status }}</div>
+                                        <div class="step-date">
+                                            {% if forloop.counter0 <= status_index %}
+                                                <time datetime="{{ package.shipping_date|date:'Y-m-d' }}">
+                                                    {{ package.shipping_date|date:"M d, Y" }}
+                                                </time>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                    
+                </section>
+            </div>
+
+            
+        </div>
+
+        <section class="info-card delivery-actions" aria-labelledby="actions-heading">
+            <h2 class="section-title" id="actions-heading">
+                <i class="fas fa-cog" aria-hidden="true"></i> Manage Your Delivery
+            </h2>
+            <div class="actions-grid">
+                <a href="{% url 'track:generate_pdf' package_id=package.package_id %}" 
+                   class="action-button" download>
+                    <i class="fas fa-print" aria-hidden="true"></i>
+                    <span>Print receipt</span>
+                </a>
+                <button onclick="Tawk_API.toggle()" class="action-button">
+                    <i class="fas fa-comment-dots" aria-hidden="true"></i>
+                    <span>Live Chat</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-top">
+                    <div class="footer-logo">
+                        <img src="{% static 'images/logo.jpg' %}" alt="" width="40" height="40">
+                        <span>Chaselogix</span>
+                    </div>
+                    <nav class="footer-links" aria-label="Footer navigation">
+                        <div class="link-group">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="{% url 'track:track_package' %}">Home</a></li>
+                                <li><a href="{% url 'track:track_package' %}#services">Services</a></li>
+                                <li><a href="javascript:jivo_api.open();">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-group">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#">Help Center</a></li>
+                                <li><a href="{% url 'track:track_package' %}#faq">FAQ</a></li>
+                                <li><a href="{% url 'track:shipping_policy' %}">Shipping Policy</a></li>
+                                <li><a href="{% url 'track:returns_policy' %}">Returns</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-group">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="{% url 'track:terms_of_service' %}">Terms of Service</a></li>
+                                <li><a href="{% url 'track:privacy_policy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'track:cookies_policy' %}">Cookies Policy</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="footer-bottom">
+                    <p class="copyright">© 2025 Chaselogix. All rights reserved.</p>
+                    <div class="social-links" aria-label="Social media links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="notification" id="copyNotification" role="alert" aria-hidden="true">
+        <i class="fas fa-check-circle" aria-hidden="true"></i>
+        <span>Tracking number copied to clipboard!</span>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.setAttribute('aria-hidden', 'false');
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.setAttribute('aria-hidden', 'true');
+                }, 3000);
+            });
+        }
+        
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

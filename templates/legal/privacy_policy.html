@@ -1,0 +1,46 @@
+{% extends 'legal/base_legal.html' %}
+
+{% block title %}Privacy Policy | Chaselogix{% endblock %}
+
+{% block legal_content %}
+<article class="legal-document">
+    <h1>Privacy Policy</h1>
+    <p class="last-updated">Last updated: {% now "F d, Y" %}</p>
+
+    <section>
+        <h2>1. Information Collection</h2>
+        <p>1.1. Personal Information We Collect:</p>
+        <ul>
+            <li>Contact information (name, address, email, phone)</li>
+            <li>Shipping details (origin, destination, contents)</li>
+            <li>Payment information</li>
+            <li>Government-issued identification (for customs)</li>
+            <li>Account credentials</li>
+        </ul>
+
+        <p>1.2. Automatically Collected Information:</p>
+        <ul>
+            <li>IP address and device information</li>
+            <li>Browser type and settings</li>
+            <li>Location data</li>
+            <li>Website usage patterns</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>2. Use of Information</h2>
+        <p>We use collected information to:</p>
+        <ul>
+            <li>Process and track shipments</li>
+            <li>Manage customer accounts</li>
+            <li>Process payments</li>
+            <li>Comply with customs requirements</li>
+            <li>Improve our services</li>
+            <li>Send service updates and marketing communications</li>
+            <li>Prevent fraud and enhance security</li>
+        </ul>
+    </section>
+
+    // ...continue with detailed sections for data sharing, security, user rights, etc...
+</article>
+{% endblock %}

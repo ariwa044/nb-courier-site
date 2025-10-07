@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Track Package - Package Tracking System{% endblock %}
+{% block content %}
+<div class="tracking-container">
+    <h1 class="text-center">Track Your Package</h1>
+    <form method="post" action="{% url 'track:track_package' %}" class="tracking-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="tracking_number" class="form-label">Enter Tracking Code</label>
+            <input type="text" class="form-control" id="tracking_number" name="tracking_code" required>
+        </div>
+        <div class="form-group text-center mt-3">
+            <button type="submit" class="btn btn-primary">Track</button>
+        </div>
+    </form>
+    {% if error_message %}
+        <div class="alert alert-danger mt-3" role="alert">{{ error_message }}</div>
+    {% endif %}
+    <section class="promo-section">
+        <div class="footer text-center">
+            <h2>Track Your Packages in Over 220 Countries 🌎</h2>
+        </div>
+    </section>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'legal/base_legal.html' %}
+
+{% block title %}Returns Policy | Chaselogix{% endblock %}
+
+{% block legal_content %}
+<article class="legal-document">
+    <h1>Returns Policy</h1>
+    <p class="last-updated">Last updated: {% now "F d, Y" %}</p>
+
+    <section>
+        <h2>1. Return Eligibility</h2>
+        <p>1.1. Requirements for Returns:</p>
+        <ul>
+            <li>Original shipping documentation</li>
+            <li>Items in original condition</li>
+            <li>Return request within 30 days</li>
+            <li>Valid reason for return</li>
+        </ul>
+
+        <p>1.2. Non-Returnable Items:</p>
+        <ul>
+            <li>Hazardous materials</li>
+            <li>Perishable goods</li>
+            <li>Custom-made items</li>
+            <li>Items without original packaging</li>
+        </ul>
+    </section>
+</article>
+{% endblock %}

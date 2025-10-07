@@ -1,0 +1,33 @@
+Your Package Shipment Confirmation
+
+Dear {{ package.receiver }},
+
+We're pleased to inform you that your package has been processed and is now ready for shipping.
+
+Package Details:
+---------------
+Tracking Code: {{ tracking_code }}
+Package ID: {{ package.package_id }}
+Package Name: {{ package.package_name }}
+Status: {{ package.get_package_status_display }}
+Shipping Method: {{ package.get_mode_of_transit_display }}
+
+Shipping Details:
+---------------
+From: {{ package.sending_location }}
+To: {{ package.receiving_location }}
+Current Location: {{ current_location }}
+{% if package.delivery_date %}
+Estimated Delivery: {{ package.delivery_date|date:"F j, Y" }}
+{% endif %}
+
+Track your package at: https://www.chaselogix.com/package/{{ package.package_id }}
+
+For any questions or concerns about your shipment, please don't hesitate to contact our customer service team.
+
+Thank you for choosing our services!
+
+Best regards,
+ChaseXpress Team
+
+Note: This is an automated message, please do not reply to this email.

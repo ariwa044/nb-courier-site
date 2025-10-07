@@ -1,0 +1,30 @@
+{% extends 'legal/base_legal.html' %}
+
+{% block title %}Shipping Policy | Chaselogix{% endblock %}
+
+{% block legal_content %}
+<article class="legal-document">
+    <h1>Shipping Policy</h1>
+    <p class="last-updated">Last updated: {% now "F d, Y" %}</p>
+
+    <section>
+        <h2>1. Shipping Services</h2>
+        <p>1.1. Available Services:</p>
+        <ul>
+            <li>Express Delivery (1-2 business days)</li>
+            <li>Priority Shipping (2-3 business days)</li>
+            <li>Standard Shipping (3-5 business days)</li>
+            <li>Economy Shipping (5-7 business days)</li>
+            <li>International Shipping (7-14 business days)</li>
+        </ul>
+
+        <p>1.2. Service Coverage:</p>
+        <ul>
+            <li>Domestic shipping to all 50 states</li>
+            <li>International shipping to over 200 countries</li>
+            <li>Remote area delivery services</li>
+            <li>Special handling for sensitive items</li>
+        </ul>
+    </section>
+</article>
+{% endblock %}

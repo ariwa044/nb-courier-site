@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Package Tracking System{% endblock %}</title>
+    {% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock %}
+</head>
+
+<body>
+    <header class="header">
+        <div class="container text-center">
+            <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="logo">
+            <h1 class="title-text">PACKAGE PULSE</h1>
+        </div>
+    </header>
+    <main class="container mt-5">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+        <div class="footer text-center">
+            <p>&copy; 2024 Package Tracking System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
