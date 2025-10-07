@@ -121,8 +121,7 @@ class Package(models.Model):
     PACKAGE_STATUS_CHOICES = [
         ('Shipment Processed', 'Shipment Processed'),
         ('In Transit', 'In Transit'),
-        ('Awaiting Customs Clearance', 'Awaiting Customs Clearance'),
-        ('Customs Cleared', 'Customs Cleared'),
+        ('Hold', 'Hold'),
         ('At Destination Facility', 'At Destination Facility'),
         ('Out for Delivery', 'Out for Delivery'),
         ('Delivered', 'Delivered'),
