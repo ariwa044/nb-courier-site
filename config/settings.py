@@ -168,6 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://www.chaselogix.com',
+    'https://chaselogix.com',
 ]
 
 #CKEDITOR_UPLOAD_PATH = "uploads/"
