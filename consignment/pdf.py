@@ -27,13 +27,13 @@ def generate_receipt_pdf(response, package):
     from reportlab.platypus import Image
 
     def create_simple_logo():
-        logo = Image('static/images/logo.png', width=20*mm, height=20*mm)
+        logo = Image('static/images/logo.jpg', width=20*mm, height=20*mm)
         return logo
 
     # Header with company info
     header_data = [
         [create_simple_logo(), 'SHIPPING RECEIPT', '', f'Receipt #{package.package_id}'],
-        ['', '','CHASEXPRESS', '', f'Date: {package.shipping_date.strftime("%Y-%m-%d")}'],
+        ['', '','CHASELOGIX', '', f'Date: {package.shipping_date.strftime("%Y-%m-%d")}'],
        # ['', '283 Pier Drive, Brooklyn...', '', f'Time: {package.shipping_date.strftime("%H:%M")}'],
     ]
 
@@ -125,7 +125,7 @@ def generate_receipt_pdf(response, package):
     elements.append(Spacer(1, 10*mm))
 
     # Footer
-    footer_text = '''Thank you for choosing CHASEXPRESS!
+    footer_text = '''Thank you for choosing CHASELOGIX!
  visit www.chaselogix.com'''
     
     footer = Paragraph(

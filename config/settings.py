@@ -211,7 +211,7 @@ EMAIL_PORT = int(os.getenv('EMAIL_PORT', 465))
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'support@chaselogix.com')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'Arinze123.')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'ChaseXpress <support@chaselogix.com>')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Chaselogix <support@chaselogix.com>')
 EMAIL_TIMEOUT = 30
 
 # Configure logging for email errors
