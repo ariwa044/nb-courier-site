@@ -128,7 +128,7 @@ class Package(models.Model):
     delivery_update = models.TextField(null=True, blank=True)
     #package_image = models.ImageField(upload_to='package_images/', default='default_image.jpg')
     package_weight = models.FloatField(null=True, blank=True, default=0.0)
-    shipping_cost = models.FloatField(null=True, blank=True, default=0.0)
+    #shipping_cost = models.FloatField(null=True, blank=True, default=0.0)
     package_quantity = models.IntegerField(default=1)
 
     shipping_date = models.DateField(default=default_shipping_date, null=True, blank=True)
