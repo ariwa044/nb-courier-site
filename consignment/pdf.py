@@ -90,7 +90,7 @@ def generate_receipt_pdf(response, package):
     package_details = [
         ['PACKAGE DETAILS'],
         ['Description', 'Weight', 'Rate', 'Amount'],
-        [package.package_name, f'{package.package_weight} kg', 
+        [package.package_name, f'{package.package_weight} kg'],
         # f'${package.shipping_cost/package.package_weight:.2f}/kg', f'${package.shipping_cost:.2f}']
     ]
 
@@ -107,11 +107,11 @@ def generate_receipt_pdf(response, package):
     elements.append(Spacer(1, 5*mm))
 
     # Totals section
-    totals = [
-       # ['', '', 'Subtotal:', f'${package.shipping_cost:.2f}'],
-       # ['', '', 'Tax (10%):', f'${package.shipping_cost * 0.1:.2f}'],
-       # ['', '', 'Total:', f'${package.shipping_cost * 1.1:.2f}']
-    ]
+    #totals = [
+    #   # ['', '', 'Subtotal:', f'${package.shipping_cost:.2f}'],
+    #   # ['', '', 'Tax (10%):', f'${package.shipping_cost * 0.1:.2f}'],
+    #   # ['', '', 'Total:', f'${package.shipping_cost * 1.1:.2f}']
+    #]
 
     totals_table = Table(totals, colWidths=[90*mm, 30*mm, 30*mm, 30*mm])
     totals_table.setStyle(TableStyle([
