@@ -185,39 +185,29 @@
                 {% endif %}
                 <section class="status-timeline" aria-labelledby="timeline-heading">
                     <h2 class="section-title" id="timeline-heading">
-                        <i class="fas fa-route" aria-hidden="true"></i> Shipment Progress
+                        <i class="fas fa-route" aria-hidden="true"></i> Current Status
                     </h2>
-                    <div class="timeline-wrapper">
-                        <div class="progress-container" aria-label="Shipment progress: {{ status_percentage }}% complete">
-                            <div class="progress-bar" style="--progress: {{ status_percentage }}%"></div>
-                            <ol class="timeline-steps">
-                                {% for status in status_list %}
-                                <li class="step {% if forloop.counter0 <= status_index %}active{% endif %}">
-                                    <div class="step-icon" aria-hidden="true">
-                                        {% if forloop.counter0 < status_index %}
-                                            <i class="fas fa-check"></i>
-                                        {% elif forloop.counter0 == status_index %}
-                                            <i class="fas fa-circle-dot pulse"></i>
-                                        {% else %}
-                                            <i class="far fa-circle"></i>
-                                        {% endif %}
-                                    </div>
-                                    <div class="step-content">
-                                        <div class="step-label">{{ status }}</div>
-                                        <div class="step-date">
-                                            {% if forloop.counter0 <= status_index %}
-                                                <time datetime="{{ package.shipping_date|date:'Y-m-d' }}">
-                                                    {{ package.shipping_date|date:"M d, Y" }}
-                                                </time>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            </ol>
+                    <div class="current-status-wrapper">
+                        <div class="current-status" aria-label="Current shipment status">
+                            <div class="status-icon" aria-hidden="true">
+                                {% if package.package_status == 'Delivered' %}
+                                    <i class="fas fa-check-circle fa-3x"></i>
+                                {% elif package.package_status == 'In Transit' %}
+                                    <i class="fas fa-shipping-fast fa-3x pulse"></i>
+                                {% else %}
+                                    <i class="fas fa-clock fa-3x"></i>
+                                {% endif %}
+                            </div>
+                            <div class="status-details">
+                                <h3 class="status-label">{{ package.get_package_status_display }}</h3>
+                                <div class="status-date">
+                                    <time datetime="{{ package.shipping_date|date:'Y-m-d' }}">
+                                        {{ package.shipping_date|date:"M d, Y" }}
+                                    </time>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
                 </section>
             </div>
 
